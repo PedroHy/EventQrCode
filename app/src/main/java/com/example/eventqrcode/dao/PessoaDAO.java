@@ -26,20 +26,21 @@ public class PessoaDAO {
         values.put("cpf", pessoa.getCpf());
         values.put("eventoID", pessoa.getEventoID());
 
-        return(banco.insert("pessoa", null, values));
+        return(banco.insert("Pessoa", null, values));
     }
 
-    public void delete(Integer pessoaID){
-        String args[] = {pessoaID.toString()};
-        banco.delete("pessoa","id=?",args);
+    public void delete(Integer id){
+        String args[] = {id.toString()};
+        banco.delete("Pessoa","id=?",args);
     }
 
-    public Pessoa find(Integer pessoaID){
-        String args[] = {String.valueOf(pessoaID)};
+    public Pessoa find(Integer id){
+        String args[] = {id.toString()};
         Pessoa pessoa = new Pessoa();
 
-        Cursor cursor = banco.query("evento", new String[]{"id", "nome", "maximoPessoas", "pessoas"},
+        Cursor cursor = banco.query("Pessoa", new String[]{"id", "nome", "cpf", "evento", "horaEntrada", "horaSaida"},
                 "id=?", args, null, null, null);
+
         cursor.moveToFirst();
         if(cursor.getCount() > 0){
             pessoa.setId(cursor.getInt(0));
@@ -54,9 +55,10 @@ public class PessoaDAO {
 
     public ArrayList<Pessoa> getPessoasFromEvent(Integer eventID){
         ArrayList<Pessoa> pessoas = new ArrayList<Pessoa>();
+        String[] args = {eventID.toString()};
 
-        Cursor cursor = banco.query("evento", new String[]{"id", "nome", "maximoPessoas", "pessoas"},
-                null, null, null, null, null);
+        Cursor cursor = banco.query("Pessoa", new String[]{"id", "nome", "cpf", "evento", "horaEntrada", "horaSaida"},
+                "evento=?", args, null, null, null);
 
         while (cursor.moveToNext()) {
             Pessoa pessoa = new Pessoa();
@@ -71,5 +73,16 @@ public class PessoaDAO {
         }
 
         return pessoas;
+    }
+
+    public void update(Pessoa pessoa){
+        ContentValues values = new ContentValues();
+        values.put("nome", pessoa.getNome());
+        values.put("cpf", pessoa.getCpf());
+        values.put("evento", pessoa.getEventoID());
+        values.put("horaSaida", pessoa.getHoraSaida());
+
+        String[] args = {pessoa.getId().toString()};
+        banco.update("Pessoa", values,"id=?",args);
     }
 }

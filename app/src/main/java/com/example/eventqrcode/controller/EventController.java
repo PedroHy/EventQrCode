@@ -50,21 +50,22 @@ public class EventController {
 
     }
 
-    public void registrarSaida() {
+    public void registrarSaida(Context context, Integer idPessoa) {
+        PessoaDAO pessoaDAO = new PessoaDAO(context);
+        Pessoa p = pessoaDAO.find(idPessoa);
 
+        long unix = System.currentTimeMillis() / 1000L;
+        p.setHoraSaida(Integer.parseInt(unix + ""));
     }
 
-    public void finalizarEvento() {
+    public void finalizarEvento(Context context, Integer idEvento) {
+        EventoDAO eventoDAO = new EventoDAO(context);
 
+        eventoDAO.delete(idEvento);
     }
 
-    public ArrayList<Pessoa> listarPessoas() {
-
-        return new ArrayList<Pessoa>();
-    }
-
-    public Pessoa criarPessoa() {
-
-        return new Pessoa();
+    public ArrayList<Pessoa> listarPessoas(Context context, Integer idEvento) {
+        PessoaDAO pessoaDAO = new PessoaDAO(context);
+        return pessoaDAO.getPessoasFromEvent(idEvento);
     }
 }

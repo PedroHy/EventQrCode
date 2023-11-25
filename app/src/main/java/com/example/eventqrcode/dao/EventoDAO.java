@@ -30,6 +30,8 @@ public class EventoDAO {
     public void delete(Integer id){
         String[] args = {id.toString()};
         banco.delete("Evento","id=?", args);
+
+        banco.delete("Pessoa", "evento=?", new String[]{id.toString()});
     }
 
     public Evento find(Integer id){
