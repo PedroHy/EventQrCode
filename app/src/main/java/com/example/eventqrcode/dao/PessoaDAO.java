@@ -22,12 +22,10 @@ public class PessoaDAO {
 
     public long create(Pessoa pessoa){
         ContentValues values = new ContentValues();
-        values.put("id", pessoa.getId());
         values.put("nome", pessoa.getNome());
         values.put("cpf", pessoa.getCpf());
         values.put("eventoID", pessoa.getEventoID());
-        values.put("horaEntrada", pessoa.getHoraEntrada());
-        values.put("horaSaida", pessoa.getHoraSaida());
+
         return(banco.insert("pessoa", null, values));
     }
 

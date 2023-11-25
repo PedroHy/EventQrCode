@@ -21,24 +21,24 @@ public class EventoDAO {
 
     public long create(Evento evento){
         ContentValues values = new ContentValues();
-        values.put("id", evento.getId());
         values.put("nome", evento.getNome());
         values.put("maximoPessoas", evento.getMaximoPessoas());
-        values.put("pessoas", evento.getPessoas());
-        return(banco.insert("evento", null, values));
+
+        return(banco.insert("Evento", null, values));
     }
 
-    public void finish(Integer eventoID){
-        String args[] = {eventoID.toString()};
-        banco.delete("evento","id=?",args);
+    public void delete(Integer id){
+        String[] args = {id.toString()};
+        banco.delete("Evento","id=?", args);
     }
 
-    public Evento find(Integer eventoID){
-        String args[] = {String.valueOf(eventoID)};
+    public Evento find(Integer id){
         Evento evento = new Evento();
+        String[] args = {id.toString()};
 
-        Cursor cursor = banco.query("evento", new String[]{"id", "nome", "maximoPessoas", "pessoas"},
+        Cursor cursor = banco.query("Evento", new String[]{"id", "nome", "maximoPessoas", "pessoas"},
                 "id=?", args, null, null, null);
+
         cursor.moveToFirst();
         if(cursor.getCount() > 0){
             evento.setId(cursor.getInt(0));
@@ -46,13 +46,13 @@ public class EventoDAO {
             evento.setMaximoPessoas((cursor.getInt(2)));
             evento.setPessoas((cursor.getInt(3)));
         }
-        return new Evento();
+        return evento;
     }
 
-    public ArrayList<Evento> findAll(Integer eventoID){
+    public ArrayList<Evento> findAll(){
         ArrayList<Evento> eventos = new ArrayList<Evento>();
 
-        Cursor cursor = banco.query("evento", new String[]{"id", "nome", "maximoPessoas", "pessoas"},
+        Cursor cursor = banco.query("Evento", new String[]{"id", "nome", "maximoPessoas", "pessoas"},
                 null, null, null, null, null);
 
         while (cursor.moveToNext()) {
@@ -67,14 +67,13 @@ public class EventoDAO {
         return eventos;
     }
 
-    private void updatePessoa(Evento evento){
+    public void update(Evento evento){
         ContentValues values = new ContentValues();
-        values.put("id", evento.getId());
         values.put("nome", evento.getNome());
         values.put("maximoPessoas", evento.getMaximoPessoas());
         values.put("pessoas", evento.getPessoas());
 
         String args[] = {evento.getId().toString()};
-        banco.update("evento", values,"id=?",args);
+        banco.update("Evento", values,"id=?",args);
     }
 }

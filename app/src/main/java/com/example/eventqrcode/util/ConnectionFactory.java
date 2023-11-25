@@ -12,6 +12,7 @@ public class ConnectionFactory extends SQLiteOpenHelper {
     private static final int VERSION = 1;
 
     public ConnectionFactory(@Nullable Context context) {
+
         super(context, NAME, null, VERSION);
     }
 
