@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class EventController {
 
-    public void criarEvento(){
-
+    public void criarEvento(String nome, Interger maximoPessoas){
+        Evento e = newEvento(null, nome, maximoPessoas, null);
     }
 
     public void pegarEvento(String eventID){
