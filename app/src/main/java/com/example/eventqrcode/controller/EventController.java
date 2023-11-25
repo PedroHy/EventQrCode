@@ -32,18 +32,23 @@ public class EventController {
         return dao.findAll();
     }
 
-    public void registrarEntrada(Context context, String nome, String cpf, Integer idEvento) {
-        // Fazer erro caso o maximo tenha sido atingido
-        // Cria Pessoa no banco de dados
+    public boolean registrarEntrada(Context context, String nome, String cpf, Integer idEvento) {
+        EventoDAO eventoDAO = new EventoDAO(context);
+        Evento e = eventoDAO.find(idEvento);
+
+        if(e.getPessoas() == e.getMaximoPessoas()){
+            // Atingiu o maximo de pessoas
+            return false;
+        }
+
         Pessoa p = new Pessoa(null, nome, cpf, idEvento, null, null);
         PessoaDAO pessoaDAO = new PessoaDAO(context);
         pessoaDAO.create(p);
 
-        // Aumenta em 1 as pessoas do evento
-        EventoDAO eventoDAO = new EventoDAO(context);
-        Evento e = eventoDAO.find(idEvento);
+
         e.setPessoas(e.getPessoas() + 1);
         eventoDAO.update(e);
+        return true;
     }
 
     public void gerarQrCode() {
@@ -56,6 +61,8 @@ public class EventController {
 
         long unix = System.currentTimeMillis() / 1000L;
         p.setHoraSaida(Integer.parseInt(unix + ""));
+
+        // Diminui a quantidade de pessoas no evento?
     }
 
     public void finalizarEvento(Context context, Integer idEvento) {
