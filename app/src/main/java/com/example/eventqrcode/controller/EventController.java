@@ -62,7 +62,7 @@ public class EventController {
         long unix = System.currentTimeMillis() / 1000L;
         p.setHoraSaida(Integer.parseInt(unix + ""));
 
-        // Diminui a quantidade de pessoas no evento?
+        pessoaDAO.delete(idPessoa);
     }
 
     public void finalizarEvento(Context context, Integer idEvento) {

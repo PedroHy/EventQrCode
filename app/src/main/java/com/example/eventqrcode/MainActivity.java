@@ -31,4 +31,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(it);
     }
 
+    //listarEventos(Context context)
+
+    //abrir tela evento ao clicar no evento
 }
