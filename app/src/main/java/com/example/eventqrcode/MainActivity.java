@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         addEvent = findViewById(R.id.addEvent);
         eventList = findViewById(R.id.eventList);
+
     }
 
     public void telaAddEvento(View view){
