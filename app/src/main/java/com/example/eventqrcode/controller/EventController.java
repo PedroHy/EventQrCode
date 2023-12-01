@@ -28,6 +28,9 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.qrcode.ByteMatrix;
+import com.itextpdf.text.pdf.qrcode.QRCodeWriter;
+import com.itextpdf.text.pdf.qrcode.WriterException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -80,8 +83,11 @@ public class EventController {
         return true;
     }
 
-    public void gerarQrCode() {
+    public byte[][] gerarQrCode(String idPessoa) throws WriterException {
+        QRCodeWriter q = new QRCodeWriter();
+        ByteMatrix byteMatrix = q.encode(idPessoa, 100, 100);
 
+        return byteMatrix.getArray();
     }
 
     public void registrarSaida(Context context, Integer idPessoa) {
