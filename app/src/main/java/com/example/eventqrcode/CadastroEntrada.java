@@ -68,7 +68,7 @@ public class CadastroEntrada extends AppCompatActivity {
 
         try{
             Pessoa pessoa = controller.pegarPessoa(this, edtCPFPessoa.getText().toString());
-            byte[][] qrCode = controller.gerarQrCode(pessoa.getId());
+            byte[] qrCode = controller.gerarQrCode(pessoa.getId());
             // imprimir()
         }catch (Exception e){
             Toast.makeText(this, "Erro ao gerar QRCode", Toast.LENGTH_LONG).show();

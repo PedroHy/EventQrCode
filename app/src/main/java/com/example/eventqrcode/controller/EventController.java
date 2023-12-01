@@ -83,11 +83,23 @@ public class EventController {
         return true;
     }
 
-    public byte[][] gerarQrCode(Integer idPessoa) throws WriterException {
+    public byte[] gerarQrCode(Integer idPessoa) throws WriterException {
         QRCodeWriter q = new QRCodeWriter();
         ByteMatrix byteMatrix = q.encode(idPessoa.toString(), 100, 100);
 
-        return byteMatrix.getArray();
+        byte[] bArray = new byte[byteMatrix.getWidth() * byteMatrix.getHeight()];
+
+        for(int i = 0; i < byteMatrix.getWidth(); i++){
+            byte[] bLinha = byteMatrix.getArray()[i];
+
+            for(int j = 0; j < byteMatrix.getHeight(); j++){
+                byte b = bLinha[j];
+
+                bArray[i*byteMatrix.getWidth() + j] = b;
+            }
+        }
+
+        return bArray;
     }
 
     public void registrarSaida(Context context, Integer idPessoa) {
