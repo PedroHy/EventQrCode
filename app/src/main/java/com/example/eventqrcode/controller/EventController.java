@@ -128,7 +128,7 @@ public class EventController {
         return pessoaDAO.find(cpf);
     }
 
-    private void gerarPdf(Context context, String idPessoa, byte[] img) throws IOException, DocumentException {
+    public void gerarPdf(Context context, String idPessoa, byte[] img) throws IOException, DocumentException {
         File pdf = null;
         Uri uri = null;
         OutputStream outputStream = null;
@@ -184,10 +184,10 @@ public class EventController {
         Paragraph paragraph = new Paragraph("Código de entrada", font);
         paragraph.setAlignment(Element.ALIGN_CENTER);
         document.add(paragraph);
-
+/*
         Image image = Image.getInstance(img);
         image.setAlignment(Element.ALIGN_CENTER);
-        document.add(image);
+        document.add(image);*/
 
         paragraph = new Paragraph(id, font);
         document.add(paragraph);

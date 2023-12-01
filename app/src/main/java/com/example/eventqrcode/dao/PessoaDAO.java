@@ -38,7 +38,7 @@ public class PessoaDAO {
 
         String args[] = {cpf};
         Pessoa pessoa = new Pessoa();
-        Cursor cursor = banco.query("Pessoa", new String[]{"id", "nome", "cpf", "evento", "horaEntrada", "horaSaida"},
+        Cursor cursor = banco.query("Pessoa", new String[]{"id", "nome", "cpf", "eventoID", "horaEntrada", "horaSaida"},
                 "cpf=?", args, null, null, null);
 
         cursor.moveToFirst();
@@ -57,7 +57,7 @@ public class PessoaDAO {
         String args[] = {id.toString()};
         Pessoa pessoa = new Pessoa();
 
-        Cursor cursor = banco.query("Pessoa", new String[]{"id", "nome", "cpf", "evento", "horaEntrada", "horaSaida"},
+        Cursor cursor = banco.query("Pessoa", new String[]{"id", "nome", "cpf", "eventoID", "horaEntrada", "horaSaida"},
                 "id=?", args, null, null, null);
 
         cursor.moveToFirst();
@@ -76,8 +76,8 @@ public class PessoaDAO {
         ArrayList<Pessoa> pessoas = new ArrayList<Pessoa>();
         String[] args = {eventID.toString()};
 
-        Cursor cursor = banco.query("Pessoa", new String[]{"id", "nome", "cpf", "evento", "horaEntrada", "horaSaida"},
-                "evento=?", args, null, null, null);
+        Cursor cursor = banco.query("Pessoa", new String[]{"id", "nome", "cpf", "eventoID", "horaEntrada", "horaSaida"},
+                "eventoID=?", args, null, null, null);
 
         while (cursor.moveToNext()) {
             Pessoa pessoa = new Pessoa();
@@ -98,7 +98,7 @@ public class PessoaDAO {
         ContentValues values = new ContentValues();
         values.put("nome", pessoa.getNome());
         values.put("cpf", pessoa.getCpf());
-        values.put("evento", pessoa.getEventoID());
+        values.put("eventoID", pessoa.getEventoID());
         values.put("horaSaida", pessoa.getHoraSaida());
 
         String[] args = {pessoa.getId().toString()};

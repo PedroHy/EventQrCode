@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class ConnectionFactory extends SQLiteOpenHelper {
 
     private static final String NAME = "qrCode.db";
-    private static final int VERSION = 2;
+    private static final int VERSION = 4;
 
     public ConnectionFactory(@Nullable Context context) {
 
@@ -29,10 +29,10 @@ public class ConnectionFactory extends SQLiteOpenHelper {
                 "       id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "       nome VARCHAR(60) NOT NULL, " +
                 "       cpf VARCHAR(60) NOT NULL, " +
-                "       evento INTEGER NOT NULL, " +
-                "       horaEntrada INTEGER DEFAULT(unixepoch()), " +
+                "       eventoID INTEGER NOT NULL, " +
+                "       horaEntrada INTEGER, " +
                 "       horaSaida INTEGER, " +
-                "       FOREIGN KEY(evento) REFERENCES Evento(id)" +
+                "       FOREIGN KEY(eventoID) REFERENCES Evento(id)" +
                 ")");
     }
 
