@@ -20,6 +20,7 @@ import com.example.eventqrcode.model.Pessoa;
 
 import com.example.eventqrcode.dao.EventoDAO;
 import com.example.eventqrcode.util.PdfCreator;
+import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -31,6 +32,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.qrcode.ByteMatrix;
 import com.itextpdf.text.pdf.qrcode.QRCodeWriter;
 import com.itextpdf.text.pdf.qrcode.WriterException;
+import com.itextpdf.text.pdf.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -83,9 +85,13 @@ public class EventController {
         return true;
     }
 
-    public byte[] gerarQrCode(Integer idPessoa) throws WriterException {
+    public Image gerarQrCode(Integer idPessoa) throws WriterException, BadElementException {
+        BarcodeQRCode b = new BarcodeQRCode("Oi", 200, 200, null);
+        return b.getImage();
+
+        /*
         QRCodeWriter q = new QRCodeWriter();
-        ByteMatrix byteMatrix = q.encode(idPessoa.toString(), 100, 100);
+        q.encode(idPessoa.toString(), , 100, 100);
 
         byte[] bArray = new byte[byteMatrix.getWidth() * byteMatrix.getHeight()];
 
@@ -100,6 +106,7 @@ public class EventController {
         }
 
         return bArray;
+        */
     }
 
     public void registrarSaida(Context context, Integer idPessoa) {
@@ -128,7 +135,7 @@ public class EventController {
         return pessoaDAO.find(cpf);
     }
 
-    public void gerarPdf(Context context, String idPessoa, byte[] img) throws IOException, DocumentException {
+    public void gerarPdf(Context context, String idPessoa, Image img) throws IOException, DocumentException {
         File pdf = null;
         Uri uri = null;
         OutputStream outputStream = null;
@@ -184,12 +191,13 @@ public class EventController {
         Paragraph paragraph = new Paragraph("Código de entrada", font);
         paragraph.setAlignment(Element.ALIGN_CENTER);
         document.add(paragraph);
-/*
-        Image image = Image.getInstance(img);
-        image.setAlignment(Element.ALIGN_CENTER);
-        document.add(image);*/
+
+        img.scaleToFit(150, 150);
+        img.setAlignment(Element.ALIGN_CENTER);
+        document.add(img);
 
         paragraph = new Paragraph(id, font);
+        paragraph.setAlignment(Element.ALIGN_CENTER);
         document.add(paragraph);
 
         document.close();

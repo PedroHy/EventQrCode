@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.eventqrcode.controller.EventController;
 import com.example.eventqrcode.model.Evento;
 import com.example.eventqrcode.model.Pessoa;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.qrcode.WriterException;
 
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class CadastroEntrada extends AppCompatActivity {
 
         try{
             Pessoa pessoa = controller.pegarPessoa(this, edtCPFPessoa.getText().toString());
-            byte[] qrCode = controller.gerarQrCode(pessoa.getId());
+            Image qrCode = controller.gerarQrCode(pessoa.getId());
             controller.gerarPdf(this, pessoa.getId().toString(), qrCode);
         }catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
