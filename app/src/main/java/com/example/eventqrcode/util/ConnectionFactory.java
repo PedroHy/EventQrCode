@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class ConnectionFactory extends SQLiteOpenHelper {
 
     private static final String NAME = "qrCode.db";
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
     public ConnectionFactory(@Nullable Context context) {
 
@@ -21,7 +21,7 @@ public class ConnectionFactory extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS Evento(" +
                 "       id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "       nome VARCHAR(60) NOT NULL, " +
-                "       capacidade INTEGER NOT NULL, " +
+                "       maximoPessoas INTEGER NOT NULL, " +
                 "       pessoas INTEGER DEFAULT(0)" +
                 "   )");
 

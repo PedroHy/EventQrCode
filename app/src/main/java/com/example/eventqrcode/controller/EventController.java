@@ -83,9 +83,9 @@ public class EventController {
         return true;
     }
 
-    public byte[][] gerarQrCode(String idPessoa) throws WriterException {
+    public byte[][] gerarQrCode(Integer idPessoa) throws WriterException {
         QRCodeWriter q = new QRCodeWriter();
-        ByteMatrix byteMatrix = q.encode(idPessoa, 100, 100);
+        ByteMatrix byteMatrix = q.encode(idPessoa.toString(), 100, 100);
 
         return byteMatrix.getArray();
     }
@@ -111,7 +111,12 @@ public class EventController {
         return pessoaDAO.getPessoasFromEvent(idEvento);
     }
 
-    private void gerarPdf(String idPessoa, Context context, byte[] img) throws IOException, DocumentException {
+    public Pessoa pegarPessoa(Context context, String cpf){
+        PessoaDAO pessoaDAO = new PessoaDAO(context);
+        return pessoaDAO.find(cpf);
+    }
+
+    private void gerarPdf(Context context, String idPessoa, byte[] img) throws IOException, DocumentException {
         File pdf = null;
         Uri uri = null;
         OutputStream outputStream = null;

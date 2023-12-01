@@ -29,7 +29,10 @@ public class EventoActivity extends AppCompatActivity {
         btnRegistrarEntrada = findViewById(R.id.btnRegistrarEntrada);
         btnEncerrarEvento = findViewById(R.id.btnEncerrarEvento);
 
+        Bundle extra = getIntent().getExtras();
+        Integer id = extra.getInt("idEvento");
 
+        lblQtdPessoas.setText(id.toString());
         //listarPessoas(Context context, Integer idEvento)
         //pegarEvento(Context context, Integer id)
     }

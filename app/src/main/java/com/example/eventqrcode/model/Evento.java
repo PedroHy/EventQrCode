@@ -46,4 +46,9 @@ public class Evento {
     public void setPessoas(Integer pessoas) {
         this.pessoas = pessoas;
     }
+
+    @Override
+    public String toString() {
+        return id + " - " + nome;
+    }
 }
