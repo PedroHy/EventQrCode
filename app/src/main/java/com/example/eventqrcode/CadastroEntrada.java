@@ -66,6 +66,11 @@ public class CadastroEntrada extends AppCompatActivity {
     }
 
     public void buttonGerarQrCode(View view) {
+        if(edtNomePessoa.getText().toString().equals("") || edtCPFPessoa.getText().toString().equals("")){
+            Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         try{
             String item = comboEventos.getSelectedItem().toString();
             Integer id = Integer.parseInt(item.split(" ")[0]);

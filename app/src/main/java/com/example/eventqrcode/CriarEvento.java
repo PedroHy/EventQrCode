@@ -31,6 +31,11 @@ public class CriarEvento extends AppCompatActivity {
     }
 
     public void buttonCriarEvento(View view){
+        if(edtNomeEvento.getText().toString().equals("") || edtCapacidadeMaxima.getText().toString().equals("")){
+            Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         try{
             EventController controller = new EventController();
             controller.criarEvento(this, edtNomeEvento.getText().toString(), Integer.parseInt(edtCapacidadeMaxima.getText().toString()));
