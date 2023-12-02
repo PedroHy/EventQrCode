@@ -3,6 +3,7 @@ package com.example.eventqrcode;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -52,8 +53,15 @@ public class CadastroEntrada extends AppCompatActivity {
         comboEventos.setAdapter(adapter);
         Bundle extras = getIntent().getExtras();
 
-        //TODO NICOLAS
-        //SE VIER DE OUTRA TELA COLOCAR SELECIONADO
+        if(extras != null){
+            Integer id = extras.getInt("idEvento");
+
+            for(Evento evento : eventos){
+                if(evento.getId() == id){
+                    comboEventos.setSelection(id-1);
+                }
+            }
+        }
 
     }
 
@@ -74,10 +82,16 @@ public class CadastroEntrada extends AppCompatActivity {
         }catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
+
+        Intent it = new Intent(this, MainActivity.class);
+        startActivity(it);
+        finish();
     }
 
     public void buttonCancelarCadastroEntrada(View view){
-
+        Intent it = new Intent(this, MainActivity.class);
+        startActivity(it);
+        finish();
     }
 
     private void listarEventos(){

@@ -65,4 +65,9 @@ public class Pessoa {
     public void setHoraSaida(Integer horaSaida) {
         this.horaSaida = horaSaida;
     }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
 }
