@@ -222,7 +222,7 @@ public class EventController {
         PackageManager packageManager = context.getPackageManager();
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setType("application/pdf");
+        intent.setDataAndType(uri,"application/pdf");
 
         List<ResolveInfo> lista = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 
