@@ -45,4 +45,10 @@ public class CriarEvento extends AppCompatActivity {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void btnCancelar(View view){
+        Intent it = new Intent(this, MainActivity.class);
+        startActivity(it);
+        finish();
+    }
 }
