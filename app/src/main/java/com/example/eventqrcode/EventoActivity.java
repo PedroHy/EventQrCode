@@ -1,18 +1,25 @@
 package com.example.eventqrcode;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eventqrcode.controller.EventController;
 import com.example.eventqrcode.model.Evento;
 import com.example.eventqrcode.model.Pessoa;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 
@@ -23,6 +30,9 @@ public class EventoActivity extends AppCompatActivity {
     Integer id;
     Button btnRegistrarEntrada, btnRegistrarSaida, btnEncerrarEvento;
     Evento evento;
+
+    EventController controller;
+
     private ArrayAdapter<Pessoa> adapter;
     private ArrayList<Pessoa> pessoas;
 
@@ -30,6 +40,8 @@ public class EventoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evento);
+
+        controller = new EventController();
 
         lblQtdPessoas = findViewById(R.id.lblQtdPessoas);
         lblNomeEvento = findViewById(R.id.lblNomeEvento);
@@ -51,8 +63,6 @@ public class EventoActivity extends AppCompatActivity {
 
         adapter = new ArrayAdapter<Pessoa>(this, android.R.layout.simple_list_item_1, pessoas);
         listPessoasEvento.setAdapter(adapter);
-
-
     }
 
     public void buttonRegistrarEntrada(View v){
@@ -62,9 +72,31 @@ public class EventoActivity extends AppCompatActivity {
     }
 
     public void buttonRegistrarSaida(View v){
-        //lerQrCode()
+        controller.lerQrCode(this);
         //registrarSaida(Context context, Integer idPessoa)
     }
+
+    //Função executada ao finalizar o scan
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+        if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this, "Scanner cancelado", Toast.LENGTH_LONG).show();
+            } else {
+                controller.registrarSaida(this, Integer.parseInt(result.getContents()));
+                Toast.makeText(this, "Saída registrada com sucesso", Toast.LENGTH_SHORT).show();
+
+                Intent it = new Intent(this, MainActivity.class);
+                this.startActivity(it);
+                this.finish();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
 
     public void buttonFinalizarEvento(View v){
         //finalizarEvento(Context context, Integer idEvento)

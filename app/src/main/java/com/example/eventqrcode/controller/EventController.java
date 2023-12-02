@@ -1,5 +1,7 @@
 package com.example.eventqrcode.controller;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,15 +13,21 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.app.ActivityCompat;
+
+import com.example.eventqrcode.MainActivity;
 import com.example.eventqrcode.dao.PessoaDAO;
 import com.example.eventqrcode.model.Evento;
 import com.example.eventqrcode.model.Pessoa;
 
 import com.example.eventqrcode.dao.EventoDAO;
 import com.example.eventqrcode.util.PdfCreator;
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -86,27 +94,16 @@ public class EventController {
     }
 
     public Image gerarQrCode(Integer idPessoa) throws WriterException, BadElementException {
-        BarcodeQRCode b = new BarcodeQRCode("Oi", 200, 200, null);
+        BarcodeQRCode b = new BarcodeQRCode(idPessoa.toString(), 200, 200, null);
         return b.getImage();
+    }
 
-        /*
-        QRCodeWriter q = new QRCodeWriter();
-        q.encode(idPessoa.toString(), , 100, 100);
-
-        byte[] bArray = new byte[byteMatrix.getWidth() * byteMatrix.getHeight()];
-
-        for(int i = 0; i < byteMatrix.getWidth(); i++){
-            byte[] bLinha = byteMatrix.getArray()[i];
-
-            for(int j = 0; j < byteMatrix.getHeight(); j++){
-                byte b = bLinha[j];
-
-                bArray[i*byteMatrix.getWidth() + j] = b;
-            }
-        }
-
-        return bArray;
-        */
+    public void lerQrCode(Activity activity){
+        IntentIntegrator integrator = new IntentIntegrator(activity);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+        integrator.setOrientationLocked(false);
+        integrator.setPrompt("");
+        integrator.initiateScan();
     }
 
     public void registrarSaida(Context context, Integer idPessoa) {
@@ -135,7 +132,7 @@ public class EventController {
         return pessoaDAO.find(cpf);
     }
 
-    public void gerarPdf(Context context, String idPessoa, Image img) throws IOException, DocumentException {
+    public Uri gerarPdf(Context context, String idPessoa, Image img) throws IOException, DocumentException {
         File pdf = null;
         Uri uri = null;
         OutputStream outputStream = null;
@@ -159,7 +156,7 @@ public class EventController {
             outputStream = new FileOutputStream(fileDescriptor);
 
         }else{
-            File directoryRoot = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/qrCodes/");
+            File directoryRoot = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
             File directory = new File(directoryRoot+"/qrCodes/");
 
             if(!directory.exists()){
@@ -205,11 +202,13 @@ public class EventController {
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             descriptor.close();
-            visualizarPdf(context, uri);
+            //visualizarPdf(context, uri);
+            return uri;
         }else{
             visualizarPdf(pdf);
         }
 
+        return uri;
     }
 
     //versoes antigas
@@ -219,21 +218,6 @@ public class EventController {
 
     //versoes novas
     private void visualizarPdf(Context context, Uri uri){
-        PackageManager packageManager = context.getPackageManager();
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(uri,"application/pdf");
-
-        List<ResolveInfo> lista = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-
-        if(lista.size() > 0){
-            Intent intent1 = new Intent(Intent.ACTION_VIEW);
-            intent1.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent1.setDataAndType(uri,"application/pdf");
-
-            context.startActivity(intent1);
-        }else{
-            Toast.makeText(context.getApplicationContext(), "Você não possui leitores de pdf no seu dispositivo", Toast.LENGTH_LONG).show();
-        }
+        //Tamo fudido
     }
 }

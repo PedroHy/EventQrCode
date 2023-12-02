@@ -2,9 +2,14 @@ package com.example.eventqrcode;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,7 +23,9 @@ import com.example.eventqrcode.model.Pessoa;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.qrcode.WriterException;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CadastroEntrada extends AppCompatActivity {
 
@@ -78,7 +85,9 @@ public class CadastroEntrada extends AppCompatActivity {
         try{
             Pessoa pessoa = controller.pegarPessoa(this, edtCPFPessoa.getText().toString());
             Image qrCode = controller.gerarQrCode(pessoa.getId());
-            controller.gerarPdf(this, pessoa.getId().toString(), qrCode);
+            Uri uri = controller.gerarPdf(this, pessoa.getId().toString(), qrCode);
+            //Tamo com erro aqui, em vizualiar o pdf, mas ta gerando;
+
         }catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -103,5 +112,4 @@ public class CadastroEntrada extends AppCompatActivity {
             System.out.println(e.getMessage());
         }
     }
-
 }
