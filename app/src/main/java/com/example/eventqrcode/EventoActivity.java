@@ -67,7 +67,8 @@ public class EventoActivity extends AppCompatActivity {
     }
 
     public void buttonFinalizarEvento(View v){
-        //finalizarEvento(Context context, Integer idEvento)
+        EventController controller = new EventController();
+        controller.finalizarEvento(this, id);
     }
 
     private void setEvento(Integer idEvento){
