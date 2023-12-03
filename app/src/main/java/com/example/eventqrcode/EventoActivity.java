@@ -41,6 +41,48 @@ public class EventoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evento);
 
+        iniciarVariaveis();
+    }
+
+    public void buttonRegistrarEntrada(View v){
+        Evento evento = controller.pegarEvento(this, id);
+
+        if(evento.getPessoas() >= evento.getMaximoPessoas()){
+            Toast.makeText(this, "Limite de entradas atingido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent it = new Intent(this, CadastroEntrada.class);
+        it.putExtra("idEvento", id);
+        startActivity(it);
+        finish();
+    }
+
+    public void buttonRegistrarSaida(View v){
+        Evento evento = controller.pegarEvento(this, id);
+
+        if(evento.getPessoas() <= 0){
+            Toast.makeText(this, "Não há pessoas no evento", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Inicia a camera, que ao finalizada executa a função 'onActivityResult'
+        controller.lerQrCode(this);
+    }
+
+    public void buttonFinalizarEvento(View v){
+        controller.finalizarEvento(this, id);
+
+        Intent it = new Intent(this, MainActivity.class);
+        startActivity(it);
+        finish();
+    }
+
+    private void listarPessoas(Integer id){
+        pessoas = controller.listarPessoas(this, id);
+    }
+
+    private void iniciarVariaveis(){
         controller = new EventController();
 
         lblQtdPessoas = findViewById(R.id.lblQtdPessoas);
@@ -54,7 +96,7 @@ public class EventoActivity extends AppCompatActivity {
 
         Bundle extra = getIntent().getExtras();
         id = extra.getInt("idEvento");
-        setEvento(id);
+        evento = controller.pegarEvento(this, id);
 
         lblQtdPessoas.setText(String.format(evento.getPessoas()+"/"+evento.getMaximoPessoas()));
         lblNomeEvento.setText(evento.getNome());
@@ -65,51 +107,25 @@ public class EventoActivity extends AppCompatActivity {
         listPessoasEvento.setAdapter(adapter);
     }
 
-    public void buttonRegistrarEntrada(View v){
-        Intent it = new Intent(this, CadastroEntrada.class);
-        it.putExtra("idEvento", id);
-        startActivity(it);
-    }
-
-    public void buttonRegistrarSaida(View v){
-        controller.lerQrCode(this);
-        //registrarSaida(Context context, Integer idPessoa)
-    }
-
-    //Função executada ao finalizar o scan
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
-        if (result != null) {
-            if (result.getContents() == null) {
-                Toast.makeText(this, "Scanner cancelado", Toast.LENGTH_LONG).show();
-            } else {
-                controller.registrarSaida(this, Integer.parseInt(result.getContents()));
-                Toast.makeText(this, "Saída registrada com sucesso", Toast.LENGTH_SHORT).show();
-
-                Intent it = new Intent(this, MainActivity.class);
-                this.startActivity(it);
-                this.finish();
-            }
-        } else {
+        if(result == null){
             super.onActivityResult(requestCode, resultCode, data);
+            return;
         }
-    }
 
+        if (result.getContents() == null) {
+            Toast.makeText(this, "Scanner cancelado", Toast.LENGTH_SHORT).show();
+        } else {
+            controller.registrarSaida(this, Integer.parseInt(result.getContents()));
 
-    public void buttonFinalizarEvento(View v){
-        EventController controller = new EventController();
-        controller.finalizarEvento(this, id);
-    }
+            Intent it = new Intent(this, EventoActivity.class);
+            it.putExtra("idEvento", id);
+            startActivity(it);
+            finish();
 
-    private void setEvento(Integer idEvento){
-        EventController controller = new EventController();
-        evento = controller.pegarEvento(this, id);
-    }
-
-    private void listarPessoas(Integer id){
-        EventController controller = new EventController();
-        pessoas = controller.listarPessoas(this, id);
+        }
     }
 }

@@ -109,15 +109,31 @@ public class EventController {
     public void registrarSaida(Context context, Integer idPessoa) {
         PessoaDAO pessoaDAO = new PessoaDAO(context);
         Pessoa p = pessoaDAO.find(idPessoa);
+        try {
+            EventoDAO eventoDAO = new EventoDAO(context);
+            Evento e = eventoDAO.find(p.getEventoID());
+            e.setPessoas(e.getPessoas()-1);
+            eventoDAO.update(e);
+        } catch (Exception err){
+            Toast.makeText(context, "QRCode inválido", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        /*
         long unix = System.currentTimeMillis() / 1000L;
         p.setHoraSaida(Integer.parseInt(unix + ""));
+         */
+
 
         pessoaDAO.delete(idPessoa);
+        Toast.makeText(context, "Saída registrada com sucesso", Toast.LENGTH_SHORT).show();
     }
 
     public void finalizarEvento(Context context, Integer idEvento) {
         EventoDAO eventoDAO = new EventoDAO(context);
+        PessoaDAO pessoaDAO = new PessoaDAO(context);
+
+        pessoaDAO.deleteMany(idEvento);
 
         eventoDAO.delete(idEvento);
     }

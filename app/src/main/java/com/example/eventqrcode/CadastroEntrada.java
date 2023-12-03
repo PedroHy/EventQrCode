@@ -35,6 +35,8 @@ public class CadastroEntrada extends AppCompatActivity {
 
     EventController controller;
 
+    Integer idEvento;
+
     private ArrayAdapter<Evento> adapter;
     private ArrayList<Evento> eventos;
 
@@ -61,11 +63,11 @@ public class CadastroEntrada extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
 
         if(extras != null){
-            Integer id = extras.getInt("idEvento");
+            idEvento = extras.getInt("idEvento");
 
             for(Evento evento : eventos){
-                if(evento.getId() == id){
-                    comboEventos.setSelection(id-1);
+                if(evento.getId() == idEvento){
+                    comboEventos.setSelection(idEvento-1);
                 }
             }
         }
@@ -74,7 +76,7 @@ public class CadastroEntrada extends AppCompatActivity {
 
     public void buttonGerarQrCode(View view) {
         if(edtNomePessoa.getText().toString().equals("") || edtCPFPessoa.getText().toString().equals("")){
-            Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -82,9 +84,9 @@ public class CadastroEntrada extends AppCompatActivity {
             String item = comboEventos.getSelectedItem().toString();
             Integer id = Integer.parseInt(item.split(" ")[0]);
             controller.registrarEntrada(this, edtNomePessoa.getText().toString(), edtCPFPessoa.getText().toString(), id);
-            Toast.makeText(this, "Salvo com sucesso", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Salvo com sucesso", Toast.LENGTH_SHORT).show();
         }catch (Exception e){
-            Toast.makeText(this, "Erro ao salvar pessoa", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Erro ao salvar pessoa", Toast.LENGTH_SHORT).show();
         }
 
         try{
@@ -97,7 +99,13 @@ public class CadastroEntrada extends AppCompatActivity {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
-        Intent it = new Intent(this, MainActivity.class);
+        Intent it;
+        if(idEvento != null){
+            it = new Intent(this, EventoActivity.class);
+            it.putExtra("idEvento", idEvento);
+        } else{
+            it = new Intent(this, MainActivity.class);
+        }
         startActivity(it);
         finish();
     }

@@ -34,23 +34,29 @@ public class PessoaDAO {
         banco.delete("Pessoa","id=?",args);
     }
 
+    public void deleteMany(Integer idEvento){
+        String[] args = {idEvento.toString()};
+        banco.delete("Pessoa", "eventoID=?", args);
+    }
+
     public Pessoa find(String cpf){
 
         String args[] = {cpf};
-        Pessoa pessoa = new Pessoa();
         Cursor cursor = banco.query("Pessoa", new String[]{"id", "nome", "cpf", "eventoID", "horaEntrada", "horaSaida"},
                 "cpf=?", args, null, null, null);
 
         cursor.moveToFirst();
         if(cursor.getCount() > 0){
+            Pessoa pessoa = new Pessoa();
             pessoa.setId(cursor.getInt(0));
             pessoa.setNome((cursor.getString(1)));
             pessoa.setCpf((cursor.getString(2)));
             pessoa.setEventoID((cursor.getInt(3)));
             pessoa.setHoraEntrada((cursor.getInt(4)));
             pessoa.setHoraSaida((cursor.getInt(5)));
+            return pessoa;
         }
-        return pessoa;
+        return null;
     }
 
     public Pessoa find(Integer id){

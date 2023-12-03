@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class ConnectionFactory extends SQLiteOpenHelper {
 
     private static final String NAME = "qrCode.db";
-    private static final int VERSION = 4;
+    private static final int VERSION = 7;
 
     public ConnectionFactory(@Nullable Context context) {
 
