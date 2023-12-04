@@ -58,8 +58,8 @@ public class CadastroEntrada extends AppCompatActivity {
         comboEventos = findViewById(R.id.comboEventos);
         adapter = new ArrayAdapter<Evento>(this, android.R.layout.simple_list_item_1, eventos);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         comboEventos.setAdapter(adapter);
+        /*
         Bundle extras = getIntent().getExtras();
 
         if(extras != null){
@@ -70,7 +70,7 @@ public class CadastroEntrada extends AppCompatActivity {
                     comboEventos.setSelection(idEvento-1);
                 }
             }
-        }
+        }*/
 
     }
 
