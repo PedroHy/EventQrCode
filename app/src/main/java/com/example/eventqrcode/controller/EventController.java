@@ -185,6 +185,8 @@ public class EventController {
             outputStream = new FileOutputStream(pdf);
         }
 
+        Pessoa pessoa = this.pegarPessoa(context, idPessoa);
+
         //criando documento
         Rectangle rectangle = new Rectangle(226, 340);
 
@@ -210,6 +212,10 @@ public class EventController {
         document.add(img);
 
         paragraph = new Paragraph(id, font);
+        paragraph.setAlignment(Element.ALIGN_CENTER);
+        document.add(paragraph);
+
+        paragraph = new Paragraph(pessoa.getNome(), font);
         paragraph.setAlignment(Element.ALIGN_CENTER);
         document.add(paragraph);
 

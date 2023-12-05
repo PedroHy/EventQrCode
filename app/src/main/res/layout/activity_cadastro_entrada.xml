@@ -95,4 +95,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtCPFPessoa" />
 
+    <ImageView
+        android:id="@+id/imagePessoa"
+        android:layout_width="141dp"
+        android:layout_height="139dp"
+        android:layout_marginTop="32dp"
+        android:onClick="takePicture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comboEventos"
+        app:srcCompat="@drawable/baseline_add_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

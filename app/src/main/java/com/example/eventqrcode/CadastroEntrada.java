@@ -2,18 +2,17 @@ package com.example.eventqrcode;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ActivityNotFoundException;
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -21,25 +20,22 @@ import com.example.eventqrcode.controller.EventController;
 import com.example.eventqrcode.model.Evento;
 import com.example.eventqrcode.model.Pessoa;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.pdf.qrcode.WriterException;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CadastroEntrada extends AppCompatActivity {
 
     Button btnGerarQrCode, btnCancelar;
     EditText edtNomePessoa, edtCPFPessoa;
     Spinner comboEventos;
-
+    ImageView image;
     EventController controller;
-
     Integer idEvento;
 
     private ArrayAdapter<Evento> adapter;
     private ArrayList<Evento> eventos;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +45,7 @@ public class CadastroEntrada extends AppCompatActivity {
 
         btnGerarQrCode = findViewById(R.id.btnGerarQrCode);
         btnCancelar = findViewById(R.id.btnCancelar);
+        image = findViewById(R.id.imagePessoa);
 
         edtNomePessoa = findViewById(R.id.edtNomePessoa);
         edtCPFPessoa = findViewById(R.id.edtCPFPessoa);
@@ -114,6 +111,15 @@ public class CadastroEntrada extends AppCompatActivity {
         Intent it = new Intent(this, MainActivity.class);
         startActivity(it);
         finish();
+    }
+
+    public void takePicture(View view){
+        Intent pic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivity(pic);
+
+        Bundle extras = pic.getExtras();
+        Bitmap imageBitmap = (Bitmap) extras.get("data");
+        image.setImageBitmap(imageBitmap);
     }
 
     private void listarEventos(){
