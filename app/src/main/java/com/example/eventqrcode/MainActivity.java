@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.service.controls.actions.FloatAction;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,13 +18,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
-    FloatingActionButton addEvent;
-    ListView eventList;
-    Intent it;
-
+    private FloatingActionButton btnAddEvent;
+    private ListView eventList;
+    private Intent it;
     private ArrayAdapter<Evento> adapter;
     private ArrayList<Evento> eventos;
+    private Integer idEvento;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -33,27 +31,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        addEvent = findViewById(R.id.addEvent);
+        btnAddEvent = findViewById(R.id.btnAddEvent);
         eventList = findViewById(R.id.eventList);
 
         listarEventos();
-
-        adapter = new ArrayAdapter<Evento>(this, android.R.layout.simple_list_item_1, eventos);
-        eventList.setAdapter(adapter);
-        eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = String.valueOf(adapterView.getAdapter().getItem(i));
-                Integer id = Integer.parseInt(item.split(" ")[0]);
-                openEventActivity(id);
-            }
-        });
+        popularLista();
+        adicionarEventoDeCliqueNaLista();
     }
 
-    public void telaAddEvento(View view){
-        it = new Intent(this, CriarEvento.class);
-        startActivity(it);
-        finish();
+    public void btnAddEvent(View view){
+        abrirActivityCriarEvento();
     }
 
     private void listarEventos(){
@@ -66,9 +53,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void openEventActivity(Integer id){
+    private void abrirActivityDeEvento(){
         it = new Intent(this, EventoActivity.class);
-        it.putExtra("idEvento", id);
+        it.putExtra("idEvento", idEvento);
         startActivity(it);
+    }
+
+    private void abrirActivityCriarEvento(){
+        it = new Intent(this, CriarEvento.class);
+        startActivity(it);
+        finish();
+    }
+
+    private void popularLista(){
+        adapter = new ArrayAdapter<Evento>(this, android.R.layout.simple_list_item_1, eventos);
+        eventList.setAdapter(adapter);
+    }
+
+    private void adicionarEventoDeCliqueNaLista(){
+        eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = String.valueOf(adapterView.getAdapter().getItem(i));
+                idEvento = Integer.parseInt(item.split(" ")[0]);
+                abrirActivityDeEvento();
+            }
+        });
     }
 }

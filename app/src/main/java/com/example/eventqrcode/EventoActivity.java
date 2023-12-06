@@ -24,15 +24,12 @@ import com.google.zxing.integration.android.IntentResult;
 import java.util.ArrayList;
 
 public class EventoActivity extends AppCompatActivity {
-
-    TextView lblQtdPessoas, lblNomeEvento;
-    ListView listPessoasEvento;
-    Integer id;
-    Button btnRegistrarEntrada, btnRegistrarSaida, btnEncerrarEvento;
-    Evento evento;
-
-    EventController controller;
-
+    private TextView lblQtdPessoas, lblNomeEvento;
+    private ListView listPessoasEvento;
+    private Integer id;
+    private Button btnRegistrarEntrada, btnRegistrarSaida, btnEncerrarEvento;
+    private Evento evento;
+    private EventController controller;
     private ArrayAdapter<Pessoa> adapter;
     private ArrayList<Pessoa> pessoas;
 
