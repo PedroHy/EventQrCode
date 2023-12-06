@@ -16,6 +16,11 @@
         android:theme="@style/Theme.EventQrCode"
         tools:targetApi="31">
         <activity
+            android:name=".NavigationQR"
+            android:exported="false"
+            android:label="@string/title_activity_navigation"
+            android:theme="@style/Theme.EventQrCode.NoActionBar" />
+        <activity
             android:name=".Impressao"
             android:exported="false" />
         <activity
