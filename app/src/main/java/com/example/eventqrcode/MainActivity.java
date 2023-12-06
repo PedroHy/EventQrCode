@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         adicionarEventoDeCliqueNaLista();
     }
 
-    public void btnAddEvent(View view){
+    public void btnAddEvento(View view){
         abrirActivityCriarEvento();
     }
 
