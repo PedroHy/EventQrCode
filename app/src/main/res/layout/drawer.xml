@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="200dp"
     android:layout_height="match_parent"
+    android:background="#054F77"
     android:orientation="vertical"
-    android:padding="3dp"
-    android:background="#054F77">
+    android:padding="3dp">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="130dp"
+        android:layout_height="110dp"
+        android:layout_marginLeft="20sp"
+        app:srcCompat="@drawable/kiwi" />
 
     <TextView
         android:id="@+id/ItemA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="18dp"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="3dp"
-        android:text="A)"
+        android:onClick="drawerCriarEvento"
+        android:text="Adicionar Evento"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#FFF"
         tools:ignore="HardcodedText" />
@@ -24,32 +33,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="18dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        android:text="B)"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFF"
-        tools:ignore="HardcodedText" />
-    <TextView
-        android:id="@+id/ItemC"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        android:text="C)"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFF"
-        tools:ignore="HardcodedText" />
-
-    <TextView
-        android:id="@+id/ItemD"
-        android:layout_width="match_parent"
-        android:layout_height="626dp"
-        android:layout_marginLeft="18dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
-        android:text="D)"
+        android:onClick="drawerCadastrarEntrada "
+        android:text="Adicionar Entrada"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#FFF"
         tools:ignore="HardcodedText" />
