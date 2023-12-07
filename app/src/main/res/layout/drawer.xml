@@ -35,7 +35,7 @@
         android:layout_marginLeft="18dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
-        android:onClick="drawerCadastrarEntrada "
+        android:onClick="drawerCadastrarEntrada"
         android:text="Adicionar Entrada"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#FFF"
