@@ -94,14 +94,13 @@ public class MainActivity extends AppCompatActivity {
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
 
-        boolean focusable = true; // lets taps outside the popup also dismiss it
+        boolean focusable = true;
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
+        // Mostra o Drawer
         popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, 0, 0);
 
-        // dismiss the popup window when touched
+        // Remove o Drawer da tela quando tocar na tela
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -109,5 +108,15 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public void drawerCriarEvento(View v){
+        abrirActivityCriarEvento();
+    }
+
+    public void drawerCadastrarEntrada(View v){
+        Intent it = new Intent(this, CadastroEntrada.class);
+        startActivity(it);
+        finish();
     }
 }
