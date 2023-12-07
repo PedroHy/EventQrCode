@@ -62,17 +62,21 @@ public class EventController {
     }
 
     public boolean registrarEntrada(Context context, String nome, String cpf, Integer idEvento) {
-        eventoDao = new EventoDAO(context);
-        evento = eventoDao.find(idEvento);
+        EventoDAO eventoDAO = new EventoDAO(context);
+        Evento e = eventoDAO.find(idEvento);
 
-        if(eventoEstaLotado()) return false;
+        if(e.getPessoas() == e.getMaximoPessoas()){
+            // Atingiu o maximo de pessoas
+            return false;
+        }
 
-        pessoa = new Pessoa(null, nome, cpf, idEvento, null, null);
-        pessoaDAO = new PessoaDAO(context);
-        pessoaDAO.create(pessoa);
+        Pessoa p = new Pessoa(null, nome, cpf, idEvento, null, null);
+        PessoaDAO pessoaDAO = new PessoaDAO(context);
+        pessoaDAO.create(p);
 
-        evento.setPessoas(evento.getPessoas() + 1);
-        eventoDao.update(evento);
+
+        e.setPessoas(e.getPessoas() + 1);
+        eventoDAO.update(e);
         return true;
     }
 
