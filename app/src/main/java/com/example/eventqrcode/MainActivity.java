@@ -110,11 +110,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void drawerCriarEvento(){
+    public void drawerCriarEvento(View v){
         abrirActivityCriarEvento();
     }
 
-    public void drawerCadastrarEntrada(){
+    public void drawerCadastrarEntrada(View v){
         Intent it = new Intent(this, CadastroEntrada.class);
         startActivity(it);
         finish();
